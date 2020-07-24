@@ -1,6 +1,7 @@
 {
   "name": "@webdeveric/kibana-plus-web-ext",
   "version": "0.1.0",
+  "private": true,
   "description": "Kibana Plus web extension",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
