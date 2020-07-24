@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "kibana-plus-web-ext",
+  "version": "0.1.0",
+  "description": "Kibana +",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://sonash-kibana.dev.soluto.npr.aws.asurion.net/*",
+        "*://sonash-kibana.na.soluto.prd.aws.asurion.net/*"
+      ],
+      "js": [
+        "kibana-plus.js"
+      ]
+    }
+  ]
+}
