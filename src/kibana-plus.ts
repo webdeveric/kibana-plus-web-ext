@@ -40,9 +40,9 @@ const observer = new MutationObserver(mutations => {
       try {
         let prettyJson = JSON.stringify(JSON.parse(match), replacer, 4);
 
-        prettyJson = prettyJson.replace(/\[REDACTED\]/g, '<span style="background: rgba(0,0,0,.5); color: #FFF; font-weight: 100; padding: 0 .25em; display: inline-block; line-height: 1.8; border-radius: 5px;">[REDACTED]</span>');
+        prettyJson = prettyJson.replace(/(\[REDACTED\])/g, '<del style="background: #000; color: #FFF; text-decoration: none; letter-spacing: 0.12em;">$1</del>');
 
-        return `<div style="background-color: #F5F6F7; color: #575757; display: inline-block; vertical-align: top; padding: .5em; font: 1.2em/1.5 monospace; border-radius: 5px;">${prettyJson}</div>`;
+        return `<div style="background-color: #F7F9FB; display: inline-block; vertical-align: top; padding: .5em; line-height: 1.5; font-size 1.2em; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;">${prettyJson}</div>`;
       } catch (e) {
         return match;
       }
