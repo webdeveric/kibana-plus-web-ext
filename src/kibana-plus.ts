@@ -1,7 +1,16 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const styles = require('./main.css');
+
 console.info('Kibana ➕ loaded');
 
-function replacer(key: string | number, value: string | number | Record<string, unknown> | boolean | null | undefined ) {
-  if (typeof value === 'string') {
+function looksLikeJson( data: string ) : boolean
+{
+  return data[ 0 ] === '[' || data[ 0 ] === '{';
+}
+
+function replacer(key: string | number, value: string | number | Record<string, unknown> | boolean | null | undefined ) : unknown
+{
+  if (typeof value === 'string' && looksLikeJson( value ) ) {
     try {
       return JSON.parse(value);
     } catch (e) { // eslint-disable-line no-empty
@@ -9,6 +18,18 @@ function replacer(key: string | number, value: string | number | Record<string, 
   }
 
   return value;
+}
+
+function prettyJson( json: string ) : string
+{
+  return JSON.stringify(
+    JSON.parse(json),
+    replacer,
+    4
+  ).replace(
+    /(\[REDACTED\])/g,
+    `<del class="${styles.redacted}">$1</del>`
+  );
 }
 
 const subjectsSelector: string = [
@@ -38,11 +59,7 @@ const observer = new MutationObserver(mutations => {
   targets.forEach((element: Element) => {
     const prettyHTML = element.innerHTML.replace(/\{.*\}/gs, (match: string): string => {
       try {
-        let prettyJson = JSON.stringify(JSON.parse(match), replacer, 4);
-
-        prettyJson = prettyJson.replace(/(\[REDACTED\])/g, '<del style="background: #000; color: #FFF; text-decoration: none; letter-spacing: 0.12em;">$1</del>');
-
-        return `<div style="background-color: #F7F9FB; display: inline-block; vertical-align: top; padding: .5em; line-height: 1.5; font-size 1.2em; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;">${prettyJson}</div>`;
+        return `<div class="${styles.code}">${prettyJson(match)}</div>`;
       } catch (e) {
         return match;
       }

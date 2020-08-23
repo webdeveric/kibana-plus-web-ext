@@ -9,6 +9,10 @@
         "*://sonash-kibana.dev.soluto.npr.aws.asurion.net/*",
         "*://sonash-kibana.na.soluto.prd.aws.asurion.net/*"
       ],
+      "run_at": "document_start",
+      "css": [
+        "kibana-plus.css"
+      ],
       "js": [
         "kibana-plus.js"
       ]
