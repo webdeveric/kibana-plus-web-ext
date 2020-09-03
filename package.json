@@ -15,7 +15,8 @@
     "start": "web-ext run",
     "start:both": "web-ext run -t firefox-desktop -t chromium",
     "presign": "npm run build",
-    "sign": "web-ext sign"
+    "sign": "web-ext sign",
+    "version": "./bin/update-manifest-version && git add ./src/manifest.json"
   },
   "keywords": [
     "Kibana",
