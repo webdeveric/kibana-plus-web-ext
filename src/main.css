@@ -1,15 +1,24 @@
+:root {
+  --redacted-bg-color: rgba(0,0,0,.8);
+  --redacted-color: #FFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --redacted-bg-color: rgba(255,255,255,.8);
+    --redacted-color: #000;
+  }
+}
+
 .code {
-  background-color: #F7F9FB;
-  display: inline-block;
-  vertical-align: top;
   padding: .5em;
   line-height: 1.5;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 .redacted {
-  background: #000;
-  color: #FFF;
+  background: var(--redacted-bg-color);
+  color: var(--redacted-color);
   text-decoration: none;
   letter-spacing: 0.12em;
 }
