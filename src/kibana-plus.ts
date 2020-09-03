@@ -5,14 +5,39 @@ console.info('Kibana ➕ loaded');
 
 function looksLikeJson( data: string ) : boolean
 {
-  return data[ 0 ] === '[' || data[ 0 ] === '{';
+  return data !== '[REDACTED]' && data[ 0 ] === '[' || data[ 0 ] === '{';
+}
+
+type Unmarked = {
+  words: Set<string>,
+  json: string,
+};
+
+function unmark( json: string ) : Unmarked
+{
+  const words = new Set<string>();
+  const marked = json.matchAll(/<mark>(.+?)<\/mark>/g);
+
+  for ( const [ , item ] of marked ) {
+    words.add( item );
+  }
+
+  return {
+    words,
+    json: json.replace(/<\/?mark>/g, ''),
+  };
+}
+
+function remark( unmarked: Unmarked ) : string
+{
+  return [ ...unmarked.words ].reduce( (json, word) => json.replace(word, `<mark>${word}</mark>`), unmarked.json );
 }
 
 function replacer(key: string | number, value: string | number | Record<string, unknown> | boolean | null | undefined ) : unknown
 {
   if (typeof value === 'string' && looksLikeJson( value ) ) {
     try {
-      return JSON.parse(value);
+      return JSON.parse( value );
     } catch (e) { // eslint-disable-line no-empty
     }
   }
@@ -20,15 +45,31 @@ function replacer(key: string | number, value: string | number | Record<string, 
   return value;
 }
 
-function prettyJson( json: string ) : string
+function wrapRedacted( json: string ) : string
 {
-  return JSON.stringify(
-    JSON.parse(json),
-    replacer,
-    4
-  ).replace(
+  return json.replace(
     /(\[REDACTED\])/g,
     `<del class="${styles.redacted}">$1</del>`
+  );
+}
+
+function prettyJson( unformattedJson: string ) : string
+{
+  const { words, json } = unmark( unformattedJson );
+
+  const pretty = JSON.stringify(
+    JSON.parse( json ),
+    replacer,
+    4,
+  );
+
+  return wrapRedacted(
+    remark(
+      {
+        words,
+        json: pretty,
+      },
+    ),
   );
 }
 
