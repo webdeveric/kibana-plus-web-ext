@@ -11,12 +11,12 @@
     "dev": "NODE_ENV=development webpack --watch",
     "prebuild": "npm run spellcheck && npm run lint",
     "build": "NODE_ENV=production webpack",
-    "postbuild": "npm run web-ext",
+    "postbuild": "npm run web-ext && web-ext lint",
     "start": "web-ext run",
     "start:both": "web-ext run -t firefox-desktop -t chromium",
     "presign": "npm run build",
     "sign": "web-ext sign",
-    "version": "./bin/update-manifest-version && git add ./src/manifest.json"
+    "version": "sync-package-version ./src/manifest.json | xargs git add"
   },
   "keywords": [
     "Kibana",
@@ -28,10 +28,12 @@
   "devDependencies": {
     "@types/copy-webpack-plugin": "^6.0.0",
     "@types/mini-css-extract-plugin": "^0.9.1",
-    "@types/node": "^14.6.3",
+    "@types/node": "^14.6.4",
     "@types/webpack": "^4.41.22",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "@webdeveric/sync-package-version": "^0.1.0",
+    "bl": ">=2.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.1.0",
     "cspell": "^4.1.0",
