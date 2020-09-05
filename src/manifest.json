@@ -1,8 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "kibana-plus-web-ext",
+  "name": "Kibana Plus",
   "version": "0.3.0",
-  "description": "Kibana +",
+  "description": "Kibana + pretty JSON output",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{bbef878a-de01-414f-b2fe-fd736c32caa1}"
+    }
+  },
   "content_scripts": [
     {
       "matches": [
