@@ -1,4 +1,5 @@
-import { findElements, processElement } from './helpers';
+import { findElements } from './elements';
+import { processElement } from './process';
 
 console.info('Kibana ➕ loaded');
 
