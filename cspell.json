@@ -3,8 +3,11 @@
     "language": "en",
     "words": [
         "asurion",
+        "datetime",
         "downlevel",
         "kibana",
+        "noopener",
+        "noreferrer",
         "postbuild",
         "prebuild",
         "presign",

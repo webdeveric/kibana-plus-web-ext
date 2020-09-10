@@ -1,18 +1,28 @@
 :root {
-  --redacted-bg-color: rgba(0,0,0,.8);
-  --redacted-color: #FFF;
+  --redacted-bg-color: #000;
+  --redacted-color: var(--redacted-bg-color);
+  --redacted-hover-color: #FFF;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --redacted-bg-color: rgba(255,255,255,.8);
-    --redacted-color: #000;
+    --redacted-bg-color: #FFF;
+    --redacted-hover-color: #000;
   }
 }
 
-.code {
+.container {
+  display: block;
+}
+
+.json {
+  display: block;
+  white-space: pre-wrap;
+  background: unset;
+  color: unset;
   padding: .5em;
   line-height: 1.5;
+  font-size: 1.2em;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
@@ -21,4 +31,34 @@
   color: var(--redacted-color);
   text-decoration: none;
   letter-spacing: 0.12em;
+  transition: color ease-in-out 200ms;
+  opacity: .666;
+}
+
+.redacted:hover {
+  color: var(--redacted-hover-color);
+}
+
+.webhookType {
+  color: #F00;
+  padding: 2px;
+  box-shadow: 0 0 3px #F00;
+}
+
+.anchor {
+}
+
+.timestamp {
+  color: #DF7BBD;
+}
+
+.lambdaArn {
+  background: linear-gradient(0deg, #EEE 0%, #FEFEFE 100%);
+  padding: .33em;
+  box-shadow: inset 0 0 2px -1px rgba(0,0,0,.5);
+  border-radius: .25em;
+}
+
+.uuid {
+  color: #57A6C6;
 }
