@@ -1,10 +1,11 @@
 export type AcceptNodeFn = (node: Node) => number;
 
-export type ElementFactoryFn = (fragment: DocumentFragment) => Element | undefined;
+export type ElementFactoryFn = (fragment: DocumentFragment, match?: RegExpMatchArray) => Element | undefined;
 
 export type WordBounds = {
   start: number,
   end: number,
+  match?: RegExpMatchArray
 };
 
 export type WordBoundsFn = (text: string) => WordBounds | undefined;
@@ -20,6 +21,7 @@ export function findWordBoundsRegExp( text: string, pattern: RegExp ) : WordBoun
     return {
       start,
       end,
+      match,
     };
   }
 }
@@ -64,7 +66,7 @@ export function replaceText( root: Element, word: string | RegExp, elementFactor
     range.setStart( currentNode, bounds.start );
     range.setEnd( currentNode, bounds.end );
 
-    const replacement = elementFactory( range.cloneContents() );
+    const replacement = elementFactory( range.cloneContents(), bounds.match );
 
     if ( replacement ) {
       range.extractContents();
