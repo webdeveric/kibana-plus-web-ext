@@ -9,7 +9,7 @@ export const highlightWebhookType = makeTextReplacer(
   (fragment: DocumentFragment) : Element => {
     const element = createElement('span', styles.webhookType);
 
-    element.appendChild( fragment.firstChild as Element );
+    element.append( fragment );
 
     return element;
   }
