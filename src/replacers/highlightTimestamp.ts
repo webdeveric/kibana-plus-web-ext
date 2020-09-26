@@ -3,6 +3,7 @@ import { makeTextReplacer } from '../replacer';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const styles = require('../main.css');
+// import styles from '../main.css';
 
 /**
  * This will wrap timestamp strings that are enclosed with quotes.

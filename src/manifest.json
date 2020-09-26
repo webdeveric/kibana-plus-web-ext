@@ -8,19 +8,24 @@
       "id": "{bbef878a-de01-414f-b2fe-fd736c32caa1}"
     }
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://sonash-kibana.dev.soluto.npr.aws.asurion.net/*",
-        "*://sonash-kibana.na.soluto.prd.aws.asurion.net/*"
-      ],
-      "run_at": "document_start",
-      "css": [
-        "kibana-plus.css"
-      ],
-      "js": [
-        "kibana-plus.js"
-      ]
-    }
+  "permissions": [
+    "tabs"
+  ],
+  "optional_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/inactive.svg",
+    "default_title": "Kibana Plus"
+  },
+  "web_accessible_resources": [
+    "assets-manifest.json",
+    "runtime.js",
+    "contentScript.js",
+    "contentScript.css"
   ]
 }

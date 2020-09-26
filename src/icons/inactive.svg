@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="231" fill="#FBD2E3" stroke="#E34285" stroke-width="50" paint-order="stroke" />
+  <text x="50%" y="50%" dominant-baseline="middle" font-size="512" text-anchor="middle" fill="#E34285">+</text>
+</svg>

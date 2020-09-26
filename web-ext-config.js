@@ -9,8 +9,8 @@ module.exports = {
   },
   run: {
     startUrl: [
-      'https://sonash-kibana.dev.soluto.npr.aws.asurion.net/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&_a=(columns:!(_source),index:AWfq8r7CEXT7aK6X1o5n,interval:auto,query:(match_all:()),sort:!(\'@timestamp\',desc))',
-      'about:debugging',
+      'about:devtools-toolbox?type=extension&id=%7Bbbef878a-de01-414f-b2fe-fd736c32caa1%7D',
+      'https://sonash-kibana.na.soluto.prd.aws.asurion.net/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now%2Fd,mode:quick,to:now%2Fd))&_a=(columns:!(_source),index:AWgf2fG2vwdl8RvS0PWT,interval:auto,query:(match_all:()),sort:!(\'@timestamp\',desc))',
     ],
   },
   ignoreFiles: [ 'package-lock.json' ],

@@ -5,7 +5,7 @@
   "description": "Kibana Plus web extension",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./*.js ./*.ts ./src --ext .ts --ext .js --fix",
+    "lint": "eslint ./*.js ./src --ext .ts --ext .js --fix",
     "spellcheck": "cspell \"./{.github,src}/**/*.{js,json}\" \"./*.{md,js}\" \"./package.json\"",
     "web-ext": "web-ext build",
     "dev": "NODE_ENV=development webpack --watch",
@@ -18,34 +18,49 @@
     "sign": "web-ext sign",
     "version": "sync-package-version ./src/manifest.json | xargs git add"
   },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webdeveric/kibana-plus-web-ext.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webdeveric/kibana-plus-web-ext/issues"
+  },
+  "homepage": "https://github.com/webdeveric/kibana-plus-web-ext",
   "keywords": [
     "Kibana",
     "JSON"
   ],
   "author": "Eric King <eric@webdeveric.com>",
-  "license": "ISC",
   "dependencies": {},
   "devDependencies": {
     "@types/copy-webpack-plugin": "^6.0.0",
     "@types/mini-css-extract-plugin": "^0.9.1",
-    "@types/node": "^14.10.1",
+    "@types/node": "^14.11.2",
+    "@types/script-ext-html-webpack-plugin": "^2.1.1",
     "@types/webpack": "^4.41.22",
-    "@typescript-eslint/eslint-plugin": "^4.1.0",
-    "@typescript-eslint/parser": "^4.1.0",
+    "@types/webpack-assets-manifest": "^3.0.1",
+    "@types/webpack-subresource-integrity": "^1.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
     "@webdeveric/sync-package-version": "^0.1.0",
     "bl": ">=2.2.1",
     "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^6.1.0",
+    "copy-webpack-plugin": "^6.1.1",
     "cspell": "^4.1.0",
     "css-loader": "^4.3.0",
-    "eslint": "^7.8.1",
+    "eslint": "^7.9.0",
     "eslint-config-webdeveric": "^0.7.0",
-    "mini-css-extract-plugin": "^0.11.1",
-    "ts-loader": "^8.0.3",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.2",
-    "web-ext": "^5.0.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "file-loader": "^6.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^0.11.2",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3",
+    "web-ext": "^5.1.0",
+    "webextension-polyfill-ts": "^0.20.0",
+    "webpack": "^4.44.2",
+    "webpack-assets-manifest": "^3.1.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-subresource-integrity": "^1.4.1"
   }
 }
