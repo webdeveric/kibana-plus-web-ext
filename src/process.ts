@@ -6,8 +6,7 @@ import { JsonObjectRegExp } from './const';
 import { replaceText } from './text';
 import { sequence } from './replacer';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const styles = require('./main.css');
+import styles from './main.css';
 
 const modifyJson = sequence( ...Object.values( replacers ) );
 
