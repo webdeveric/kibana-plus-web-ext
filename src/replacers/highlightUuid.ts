@@ -1,9 +1,7 @@
 import { createElement } from '../elements';
 import { makeTextReplacer } from '../replacer';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const styles = require('../main.css');
-// import styles from '../main.css';
+import styles from '../main.css';
 
 export const highlightUuid = makeTextReplacer(
   /(?<=")[0-9A-F]{8}-[0-9A-F]{4}-\d[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}(?=")/i,
