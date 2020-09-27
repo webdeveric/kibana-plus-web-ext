@@ -17,10 +17,8 @@
   white-space: pre-wrap;
   background: unset;
   color: unset;
+  font-size: unset;
   padding: .5em;
-  line-height: 1.5;
-  font-size: 1.2em;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 .redacted {
@@ -35,6 +33,14 @@
   box-shadow: 0 0 3px #F00;
 }
 
+.propertyKey {
+  color: #616DD5;
+}
+
+.propertyKeyQuote {
+  color: #5966CE;
+}
+
 .anchor {}
 
 .timestamp {
@@ -47,4 +53,26 @@
 
 .uuid {
   color: #3CAED2;
+}
+
+.statusCode {}
+
+.statusCode100 {
+  color: grey;
+}
+
+.statusCode200 {
+  color: green;
+}
+
+.statusCode300 {
+  color: orange;
+}
+
+.statusCode400 {
+  color: orangered;
+}
+
+.statusCode500 {
+  color: red;
 }
