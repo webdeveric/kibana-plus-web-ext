@@ -1,6 +1,6 @@
 {
   "name": "@webdeveric/kibana-plus-web-ext",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "private": true,
   "description": "Kibana Plus web extension",
   "scripts": {

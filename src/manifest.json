@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Kibana Plus",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Kibana + pretty JSON output",
   "browser_specific_settings": {
     "gecko": {
