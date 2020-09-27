@@ -230,6 +230,6 @@ browser.permissions.onAdded.addListener( onPermissionsChanged );
 browser.permissions.onRemoved.addListener( onPermissionsRemoved );
 browser.permissions.onRemoved.addListener( onPermissionsChanged );
 
-browser.runtime.setUninstallURL('https://github.com/webdeveric/kibana-plus-web-ext');
+browser.runtime.setUninstallURL('https://webdeveric.github.io/kibana-plus-web-ext/uninstalled.html');
 
 init();
