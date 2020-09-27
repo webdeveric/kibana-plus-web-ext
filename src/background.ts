@@ -73,17 +73,15 @@ async function trackGrantedTabs( tab: Tabs.Tab ) : Promise<Set<number>>
 
 async function onTabUpdated(tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) : Promise<void>
 {
-  if (changeInfo.status !== TabStatus.Complete || ! tab.url ) {
-    return;
+  if ( 'status' in changeInfo && changeInfo.status === TabStatus.Complete && tab.url ) {
+    console.log(`Loaded ${tab.url} into tab ${tabId}`);
+
+    await trackGrantedTabs( tab );
+
+    await setIconForTab( tab );
+
+    await maybeUseContentScript( tab );
   }
-
-  console.log(`Loaded ${tab.url} into tab ${tabId}`);
-
-  await trackGrantedTabs( tab );
-
-  await setIconForTab( tab );
-
-  await maybeUseContentScript( tab );
 }
 
 function onTabRemoved(tabId: number): void
@@ -219,7 +217,8 @@ async function init() : Promise<void>
 
 browser.browserAction.onClicked.addListener( onBrowserActionClicked );
 
-browser.tabs.onUpdated.addListener( onTabUpdated,  { properties: [ 'status' ] } );
+// Filtering doesn't work in Chrome: { properties: [ 'status' ] }
+browser.tabs.onUpdated.addListener( onTabUpdated );
 
 browser.tabs.onRemoved.addListener( onTabRemoved );
 
