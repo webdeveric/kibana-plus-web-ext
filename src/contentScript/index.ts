@@ -1,6 +1,6 @@
 import {
   Emoji, KibanaPlus, ReadyStates,
-} from './const';
+} from '../const';
 import { findElements } from './elements';
 import { processElement } from './process';
 

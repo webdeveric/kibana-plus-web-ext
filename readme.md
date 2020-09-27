@@ -6,6 +6,16 @@ This extension is a rewrite of [kibana-plus-chrome-extension](https://github.com
 
 ## Local development
 
+### Setup
+
+```shell
+cp .env.example .env
+```
+
+Set `KIBANA_URL` to the URl of your Kibana site. This will let `web-ext` know which site to open automatically when it starts.
+
+### Development
+
 Run these in two different terminals.
 
 - This runs `webpack` in watch mode.

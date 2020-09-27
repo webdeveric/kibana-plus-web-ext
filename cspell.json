@@ -9,6 +9,7 @@
         "devtools",
         "downlevel",
         "entrypoints",
+        "esnext",
         "kibana",
         "noopener",
         "noreferrer",
@@ -19,10 +20,14 @@
         "soluto",
         "sonash",
         "subresource",
-        "unmark",
         "webdeveric",
         "webextension",
         "xargs"
     ],
-    "flagWords": []
+    "flagWords": [],
+    "ignorePaths": [
+        "node_modules/**",
+        "dist/**",
+        "build/**"
+    ]
 }

@@ -22,7 +22,7 @@ const config = {
     crossOriginLoading: 'anonymous',
   },
   optimization: {
-    minimize: isProd,
+    minimize: false,
     runtimeChunk: {
       name: 'runtime',
     },
@@ -47,6 +47,17 @@ const config = {
   },
   module: {
     rules: [
+      {
+        enforce: 'pre',
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          cache: true,
+          fix: true,
+          emitWarning: true,
+        },
+      },
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
@@ -90,16 +101,7 @@ const config = {
       enabled: isProd,
     }),
     new HtmlWebpackPlugin({
-      showErrors: true,
-      chunks: [ 'browser-action' ],
-      filename: 'browser-action.html',
-      meta: {
-        viewport: 'width=device-width, initial-scale=1',
-      },
-      template: path.resolve(__dirname, 'src', 'templates', 'react.ejs'),
-      title: 'Kibana ➕',
-    }),
-    new HtmlWebpackPlugin({
+      minify: false,
       showErrors: true,
       chunks: [ 'background' ],
       filename: 'background.html',

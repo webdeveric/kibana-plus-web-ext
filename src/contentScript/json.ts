@@ -1,4 +1,4 @@
-import { REDACTED } from './const';
+import { REDACTED } from '../const';
 
 export function looksLikeJson( data: string ) : boolean
 {

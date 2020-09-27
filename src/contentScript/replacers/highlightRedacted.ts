@@ -1,6 +1,6 @@
 import { createElement } from '../elements';
 import { makeTextReplacer } from '../replacer';
-import { REDACTED } from '../const';
+import { REDACTED } from '../../const';
 
 import styles from '../main.css';
 

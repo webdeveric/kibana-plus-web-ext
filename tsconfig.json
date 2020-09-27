@@ -19,7 +19,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
+    "forceConsistentCasingInFileNames": true
   }
 }

@@ -2,7 +2,7 @@ import * as replacers from './replacers';
 
 import { createElement } from './elements';
 import { formatJson } from './json';
-import { JsonObjectRegExp } from './const';
+import { JsonObjectRegExp } from '../const';
 import { replaceText } from './text';
 import { sequence } from './replacer';
 
