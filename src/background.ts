@@ -8,8 +8,12 @@ import {
   removePermissions,
   requestPermissions,
 } from './helpers/permissions';
-import { KibanaPlus, TabStatus } from './const';
-import { setIconForTab, setIconForTabs } from './helpers/browserAction';
+import { KibanaPlus, TabStatus } from './constants';
+import {
+  setIconForActiveTab,
+  setIconForTab,
+  setIconForTabs,
+} from './helpers/browserAction';
 
 const grantedTabs = new Set<number>();
 
@@ -33,22 +37,18 @@ async function contentScriptHasLoaded( tabId: number ) : Promise<boolean>
   return hasLoaded;
 }
 
-async function useContentScript(tabId: number): Promise<unknown[]>
+async function useContentScript(tabId: number): Promise<void>
 {
   console.log(`Loading ${KibanaPlus} content script in tab ${tabId}`);
 
   const hasLoaded = await contentScriptHasLoaded( tabId );
 
-  if ( hasLoaded ) {
-    return [];
+  if ( ! hasLoaded ) {
+    await Promise.allSettled([
+      ...contentScriptAssets.css.map( file => browser.tabs.insertCSS( tabId, { file } ) ),
+      ...contentScriptAssets.js.map( file => browser.tabs.executeScript( tabId, { file } ) ),
+    ]);
   }
-
-  const results = await Promise.allSettled([
-    ...contentScriptAssets.css.map( file => browser.tabs.insertCSS( tabId, { file } ) ),
-    ...contentScriptAssets.js.map( file => browser.tabs.executeScript( tabId, { file } ) ),
-  ]);
-
-  return results;
 }
 
 async function maybeUseContentScript( tab: Tabs.Tab ) : Promise<void>
@@ -215,6 +215,16 @@ async function init() : Promise<void>
   console.info(`${KibanaPlus} initialized`);
 }
 
+async function onStartup() : Promise<void>
+{
+  await setIconForActiveTab();
+}
+
+async function onInstalled( /* details: Runtime.OnInstalledDetailsType */ ) : Promise<void>
+{
+  await setIconForActiveTab();
+}
+
 browser.browserAction.onClicked.addListener( onBrowserActionClicked );
 
 // Filtering doesn't work in Chrome: { properties: [ 'status' ] }
@@ -230,6 +240,8 @@ browser.permissions.onAdded.addListener( onPermissionsChanged );
 browser.permissions.onRemoved.addListener( onPermissionsRemoved );
 browser.permissions.onRemoved.addListener( onPermissionsChanged );
 
+browser.runtime.onStartup.addListener( onStartup );
+browser.runtime.onInstalled.addListener( onInstalled );
 browser.runtime.setUninstallURL('https://webdeveric.github.io/kibana-plus-web-ext/uninstalled.html');
 
 init();

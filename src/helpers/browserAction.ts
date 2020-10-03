@@ -1,9 +1,11 @@
 import { browser, Tabs } from 'webextension-polyfill-ts';
 
+import { getActiveTab } from './tabs';
 import { hasPermission } from './permissions';
-import { KibanaPlus } from '../const';
+import { KibanaPlus } from '../constants';
 
 import activeIcon from '../icons/active.svg';
+import errorIcon from '../icons/error.svg';
 import inactiveIcon from '../icons/inactive.svg';
 import prohibitedIcon from '../icons/prohibited.svg';
 
@@ -14,8 +16,6 @@ export async function setTitle( tabId: number, title: string ) : Promise<void>
 
 export function setIcon( tabId: number, path: string ) : Promise<void>
 {
-  // console.log(`setIcon(${tabId}, ${path})`);
-
   return browser.browserAction.setIcon({
     path,
     tabId,
@@ -24,30 +24,24 @@ export function setIcon( tabId: number, path: string ) : Promise<void>
 
 export function setActiveIcon( tabId: number ) : Promise<void>
 {
-  // console.log(`setActiveIcon( ${tabId} )`, activeIcon );
-
   return setIcon( tabId, activeIcon );
 }
 
 export function setInactiveIcon( tabId: number ) : Promise<void>
 {
-  // console.log(`setInactiveIcon( ${tabId} )`, inactiveIcon );
-
   return setIcon( tabId, inactiveIcon );
 }
 
 export function setProhibitedIcon( tabId: number ) : Promise<void>
 {
-  // console.log(`setProhibitedIcon( ${tabId} )`, prohibitedIcon );
-
   return setIcon( tabId, prohibitedIcon );
 }
 
-/**
- * Update the browserAction icon / title
- *
- * @param tab
- */
+export function setErrorIcon( tabId: number ) : Promise<void>
+{
+  return setIcon( tabId, errorIcon );
+}
+
 export async function setIconForTab( tab: Tabs.Tab ) : Promise<void>
 {
   if ( ! tab.id || ! tab.url || ! /^https?:/.test( tab.url ) ) {
@@ -62,7 +56,10 @@ export async function setIconForTab( tab: Tabs.Tab ) : Promise<void>
       granted ? setActiveIcon( tab.id ) : setInactiveIcon( tab.id ),
     ]);
   } catch (error) {
-    return setInactiveIcon( tab.id );
+    await Promise.allSettled([
+      setTitle( tab.id, `${error}` ),
+      setErrorIcon( tab.id ),
+    ]);
   }
 }
 
@@ -71,6 +68,13 @@ export async function setIconForTabs( tabs: Tabs.Tab[] ) : Promise<void>
   await Promise.all(
     tabs.map( tab => setIconForTab( tab ) )
   );
+}
+
+export async function setIconForActiveTab() : Promise<void>
+{
+  const tab = await getActiveTab();
+
+  await setIconForTab( tab );
 }
 
 export type SetBadgeOptions = {
