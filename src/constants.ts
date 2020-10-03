@@ -1,4 +1,5 @@
 export const JsonObjectRegExp = /\{.*\}/gs;
+
 export const REDACTED = '[REDACTED]';
 
 export enum TabStatus {
@@ -12,6 +13,9 @@ export enum ReadyStates {
   Loading = 'loading',
 }
 
+/**
+ * @see https://unicode.org/emoji/charts/full-emoji-list.html
+ */
 export enum Emoji {
   PlusSign = '➕',
   Horns = '🤘',
