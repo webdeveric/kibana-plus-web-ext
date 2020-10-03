@@ -1,35 +1,6 @@
 import {
-  browser, Manifest, Permissions, 
+  browser, Manifest, Permissions,
 } from 'webextension-polyfill-ts';
-
-const validScheme = /^(?:\*|https?|wss?|ftps?|data|file):/;
-const validHostname = /^\*$|^(\*\.)?[a-z0-9-.]+$/;
-const validPathname = /^\/.+/;
-
-export function isRequestableUrl( url: string ) : boolean
-{
-  try {
-    const {
-      protocol,
-      hostname,
-      pathname,
-    } = new URL( url );
-
-    if (
-      ! validScheme.test(protocol) ||
-      ( protocol !== 'file:' && ! validHostname.test(hostname) ) ||
-      ! validPathname.test(pathname)
-    ) {
-      return false;
-    }
-  } catch (error) {
-    console.error(error);
-
-    return false;
-  }
-
-  return true;
-}
 
 export function requestPermissions( url: string, permissions?: Manifest.OptionalPermission[] ) : Promise<boolean>
 {
@@ -47,13 +18,21 @@ export function removePermissions( url: string, permissions?: Manifest.OptionalP
   });
 }
 
+/**
+ * `browser.permissions.contains()` may throw an error if the `url` doesn't match a specific pattern.
+ * For example, checking `moz-extension://` URLs will fail.
+ */
 export async function hasPermission( url: string ) : Promise<boolean>
 {
-  const allowed = await browser.permissions.contains({
-    origins: [ url ],
-  });
+  try {
+    const allowed = await browser.permissions.contains({
+      origins: [ url ],
+    });
 
-  return allowed;
+    return allowed;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function getAllPermissions() : Promise<Permissions.AnyPermissions>
