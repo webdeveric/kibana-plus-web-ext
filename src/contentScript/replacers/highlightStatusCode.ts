@@ -21,7 +21,7 @@ function getClassNameFromStatusCode( statusCode: string ): string {
   ];
 
   for ( const [ lower, upper ] of ranges ) {
-    if (inRange( code, lower, upper ) ) {
+    if ( inRange( code, lower, upper ) ) {
       return styles[ `statusCode${lower}` ];
     }
   }
