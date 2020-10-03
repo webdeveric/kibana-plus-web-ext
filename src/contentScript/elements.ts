@@ -33,7 +33,7 @@ export function createElement(tagName: string, className?: string, attributes?: 
   return element;
 }
 
-export function createAnchor( href: string, content: string | Node, className: string ) : Element
+export function createAnchor( href: string, content: string | Node, className?: string ) : Element
 {
   const element = createElement(
     'a',
