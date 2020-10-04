@@ -1,6 +1,6 @@
 import {
   Emoji, KibanaPlus, ReadyStates,
-} from '../const';
+} from '../constants';
 import { findElements } from './elements';
 import { processElement } from './process';
 
@@ -40,7 +40,6 @@ function init() : void
   const subjectsSelector: string = [
     'event',
     '@message',
-    '@event.msg',
     '@event.eventData',
     '@event.eventParams',
     '@event.requestData',
@@ -48,6 +47,9 @@ function init() : void
     '@event.restResponse',
     '@event.customContext.errorContext',
   ].map((subject: string): string => `tr[data-test-subj$="${subject}"]`).join(',');
+
+  // Process any elements that are already showing.
+  document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
 
   const observer = new MutationObserver( (mutations: MutationRecord[]) => {
     findElements( mutations, subjectsSelector ).forEach( (element: Element) => {
