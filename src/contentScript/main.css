@@ -1,10 +1,12 @@
 :root {
   --redacted-bg-color: rgba(0, 0, 0, .1);
+  --redacted-color: #000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --redacted-bg-color: rgba(255, 255, 255, .1);
+    --redacted-color: #FFF;
   }
 }
 
@@ -18,11 +20,16 @@
   background: unset;
   color: unset;
   font-size: unset;
-  padding: .5em;
+  margin: .666em auto;
+  padding: .666em;
+  line-height: 1.666;
+  border: 1px solid #ECF0F1;
+  box-shadow: inset 0 0 .666em -.333em #ECF0F1;
 }
 
 .redacted {
-  background: var(--redacted-bg-color);
+  background: var(--redacted-bg-color, #000);
+  color: var(--redacted-color, #000);
   text-decoration: none;
   letter-spacing: 0.1em;
 }
@@ -34,7 +41,7 @@
 }
 
 .propertyKey {
-  color: #616DD5;
+  color: #125CA9;
 }
 
 .propertyKeyQuote {
@@ -75,4 +82,20 @@
 
 .statusCode500 {
   color: red;
+}
+
+.datatype-boolean {
+  color: blue;
+}
+
+.datatype-number {
+  color: green;
+}
+
+.datatype-null {
+  color: blue;
+}
+
+.datatype-string {
+  color: #C60C14;
 }
