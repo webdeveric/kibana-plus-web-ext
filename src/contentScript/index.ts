@@ -4,10 +4,7 @@ import {
 import { findElements } from './elements';
 import { processElement } from './process';
 
-console.log(
-  `%c${KibanaPlus} content script loaded ${Emoji.Horns}`,
-  'display: flex; font-size: 20px; background-color: #3CAED2; color: #FFF; border-radius: .15em; padding: .25em .5em;',
-);
+console.log(`${KibanaPlus} content script loaded ${Emoji.ThumbsUp}`);
 
 // The background script checks for this value so it does not insert multiple of this script.
 window.KibanaPlus = window.KibanaPlus || {
@@ -37,19 +34,27 @@ function init() : void
     return;
   }
 
+  console.log(`${KibanaPlus} initializing ${Emoji.HourGlassNotDone}`);
+
   const subjectsSelector: string = [
     'event',
     '@message',
+    '@event.data.payload.attributes',
     '@event.eventData',
     '@event.eventParams',
     '@event.requestData',
     '@event.graphQlResponse',
     '@event.restResponse',
+    '@event.msg',
     '@event.customContext.errorContext',
   ].map((subject: string): string => `tr[data-test-subj$="${subject}"]`).join(',');
 
-  // Process any elements that are already showing.
-  document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
+  try {
+    // Process any elements that are already showing.
+    document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
+  } catch (error) {
+    console.log(error);
+  }
 
   const observer = new MutationObserver( (mutations: MutationRecord[]) => {
     findElements( mutations, subjectsSelector ).forEach( (element: Element) => {
@@ -66,6 +71,11 @@ function init() : void
     attributes: true,
     attributeFilter: [ 'data-test-subj' ],
   });
+
+  console.log(
+    `%c${KibanaPlus} content script initialized ${Emoji.Horns}`,
+    'display: flex; font-size: 20px; background-color: #3CAED2; color: #FFF; border-radius: .15em; padding: .25em .5em;',
+  );
 }
 
 waitForContentLoaded( init );

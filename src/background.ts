@@ -3,12 +3,14 @@ import {
 } from 'webextension-polyfill-ts';
 
 import {
+  Emoji, KibanaPlus, TabStatus,
+} from './constants';
+import {
   getAllPermissions,
   hasPermission,
   removePermissions,
   requestPermissions,
 } from './helpers/permissions';
-import { KibanaPlus, TabStatus } from './constants';
 import {
   setIconForActiveTab,
   setIconForTab,
@@ -212,7 +214,7 @@ async function init() : Promise<void>
 
   await setIconForTabs( tabs );
 
-  console.info(`${KibanaPlus} initialized`);
+  console.info(`${KibanaPlus} background script initialized ${Emoji.ThumbsUp}`);
 }
 
 async function onStartup() : Promise<void>
