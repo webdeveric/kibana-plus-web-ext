@@ -18,7 +18,6 @@
     "page": "background.html"
   },
   "browser_action": {
-    "browser_style": true,
     "default_icon": "icons/inactive.svg",
     "default_title": "Kibana Plus"
   },
