@@ -1,11 +1,20 @@
-import { REDACTED } from '../const';
+import { REDACTED } from '../constants';
 
-export function looksLikeJson( data: string ) : boolean
+export function looksLikeJson( input: string ) : boolean
 {
-  return data !== REDACTED && data[ 0 ] === '[' || data[ 0 ] === '{';
+  if ( input === '[]' || input === '{}' || input === REDACTED ) {
+    return false;
+  }
+
+  const data = input.trim();
+
+  return (
+    (data[ 0 ] === '[' && data[ data.length - 1 ] === ']') ||
+    (data[ 0 ] === '{' && data[ data.length - 1 ] === '}')
+  );
 }
 
-export function replacer(key: string | number, value: string | number | Record<string, unknown> | boolean | null | undefined ) : unknown
+export function replacer( key: string, value: string | number | Record<string, unknown> | boolean | null | undefined ) : unknown
 {
   if (typeof value === 'string' && looksLikeJson( value ) ) {
     try {
