@@ -53,7 +53,9 @@ function init() : void
     // Process any elements that are already showing.
     document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
   } catch (error) {
-    console.log(error);
+    // Chrome may throw an error when using ":is" since it is behind the
+    // #enable-experimental-web-platform-features preference in chrome://flags.
+    document.querySelectorAll(`:-webkit-any(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
   }
 
   const observer = new MutationObserver( (mutations: MutationRecord[]) => {
