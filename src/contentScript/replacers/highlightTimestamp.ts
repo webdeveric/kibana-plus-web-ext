@@ -11,6 +11,7 @@ export const highlightTimestamp = makeTextReplacer(
   (fragment: DocumentFragment) : Element => {
     const element = createElement('time', styles.timestamp);
 
+    element.setAttribute('title', new Date( fragment.textContent as string ).toString() );
     element.append( fragment );
 
     return element;
