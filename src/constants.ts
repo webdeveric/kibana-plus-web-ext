@@ -21,6 +21,8 @@ export enum Emoji {
   Horns = '🤘',
   ThumbsUp = '👍',
   ThumbsDown = '👎',
+  HourGlassNotDone = '⏳',
+  HourGlassDone = '⌛',
 }
 
 export const KibanaPlus = `Kibana ${Emoji.PlusSign}`;
