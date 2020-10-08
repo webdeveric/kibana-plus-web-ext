@@ -10,7 +10,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const config = {
   mode: isProd ? 'production' : 'development',
-  devtool: isProd ? false : 'cheap-source-map',
+  devtool: isProd ? false : 'inline-source-map',
   target: 'web',
   entry: {
     background: './src/background',
