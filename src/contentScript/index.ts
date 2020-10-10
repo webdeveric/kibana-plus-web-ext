@@ -4,14 +4,28 @@ import {
 import { findElements } from './elements';
 import { processElement } from './process';
 
-console.log(`${KibanaPlus} content script loaded ${Emoji.ThumbsUp}`);
-
 // The background script checks for this value so it does not insert multiple of this script.
 window.KibanaPlus = window.KibanaPlus || {
   loaded: true,
 };
 
-function waitForContentLoaded(callback: () => void, checkDelay = 10) {
+function info( message: string ) : void
+{
+  console.info(
+    `%c${KibanaPlus} ${message}`,
+    `
+      display: inline-block;
+      background: linear-gradient(to bottom, #42CAF4 0%, #3CAED2 100%);
+      color: #FFF;
+      font-size: 1.25em;
+      border-radius: .25em;
+      padding: .5em 1em;
+    `,
+  );
+}
+
+function waitForContentLoaded(callback: () => void, checkDelay = 10) : void
+{
   if (document.readyState === ReadyStates.Complete) {
     callback();
 
@@ -29,12 +43,12 @@ function looksLikeKibana() : boolean
 function init() : void
 {
   if ( ! looksLikeKibana() ) {
-    console.log('This doesn\'t look like a Kibana page');
+    info('This doesn\'t look like a Kibana page');
 
     return;
   }
 
-  console.log(`${KibanaPlus} initializing ${Emoji.HourGlassNotDone}`);
+  info(`initializing ${Emoji.HourGlassNotDone}`);
 
   const subjectsSelector: string = [
     'event',
@@ -49,35 +63,51 @@ function init() : void
     '@event.customContext.errorContext',
   ].map((subject: string): string => `tr[data-test-subj$="${subject}"]`).join(',');
 
-  try {
-    // Process any elements that are already showing.
-    document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
-  } catch (error) {
-    // Chrome may throw an error when using ":is" since it is behind the
-    // #enable-experimental-web-platform-features preference in chrome://flags.
-    document.querySelectorAll(`:-webkit-any(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => processElement( span ) );
-  }
+  const intersection = new IntersectionObserver(
+    (entries: IntersectionObserverEntry[], observer: IntersectionObserver) : void => {
+      entries
+        .filter( entry => entry.isIntersecting )
+        .forEach( entry => {
+          observer.unobserve( entry.target );
 
-  const observer = new MutationObserver( (mutations: MutationRecord[]) => {
-    findElements( mutations, subjectsSelector ).forEach( (element: Element) => {
+          processElement( entry.target );
+        });
+    },
+    {
+      root: null,
+      rootMargin: '100px 0px 100px 0px',
+      threshold: 0,
+    }
+  );
+
+  const mutation = new MutationObserver( (mutations: MutationRecord[]) => {
+    findElements( mutations, subjectsSelector ).forEach( (element: Element) : void => {
       const span = element.querySelector('.doc-viewer-value > span');
 
       if ( span ) {
-        processElement( span );
+        intersection.observe( span );
       }
     });
   });
 
-  observer.observe(document, {
+  mutation.observe(document, {
     subtree: true,
     attributes: true,
     attributeFilter: [ 'data-test-subj' ],
   });
 
-  console.log(
-    `%c${KibanaPlus} content script initialized ${Emoji.Horns}`,
-    'display: flex; font-size: 20px; background-color: #3CAED2; color: #FFF; border-radius: .15em; padding: .25em .5em;',
-  );
+  try {
+    // Process any elements that are already showing.
+    document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => intersection.observe( span ) );
+  } catch (error) {
+    // Chrome may throw an error when using ":is" since it is behind the
+    // #enable-experimental-web-platform-features preference in chrome://flags.
+    document.querySelectorAll(`:-webkit-any(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => intersection.observe( span ) );
+  }
+
+  info(`initialized ${Emoji.Horns}`);
 }
+
+info(`content script loaded ${Emoji.ThumbsUp}`);
 
 waitForContentLoaded( init );
