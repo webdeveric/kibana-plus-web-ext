@@ -33,12 +33,13 @@ export function createElement(tagName: string, className?: string, attributes?: 
   return element;
 }
 
-export function createAnchor( href: string, content: string | Node, className?: string ) : Element
+export function createAnchor( href: string, content: string | Node, className?: string, attributes: Record<string, string> = {} ) : Element
 {
   const element = createElement(
     'a',
     className,
     {
+      ...attributes,
       href: getValidUrl( href, '#' ),
       target: '_blank',
       rel: 'noopener noreferrer',

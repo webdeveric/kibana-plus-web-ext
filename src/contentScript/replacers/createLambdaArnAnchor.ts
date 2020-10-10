@@ -15,7 +15,7 @@ export const createLambdaArnAnchor = makeTextReplacer(
         url.searchParams.append('region', region);
         url.hash = `/functions/${name}`;
 
-        return createAnchor( url.toString(), fragment, styles.anchor );
+        return createAnchor( url.toString(), fragment, styles.anchor, { title: 'View on AWS' } );
       }
     }
   }

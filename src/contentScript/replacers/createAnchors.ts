@@ -5,5 +5,5 @@ import styles from '../main.css';
 
 export const createAnchors = makeTextReplacer(
   /(?<=")https?:\/\/.+(?=")+/,
-  (fragment: DocumentFragment) : Element => createAnchor(fragment.textContent ?? '#', fragment, styles.anchor)
+  (fragment: DocumentFragment) : Element => createAnchor(fragment.textContent ?? '#', fragment, styles.anchor, { title: 'Open in new tab' })
 );
