@@ -63,6 +63,6 @@
     "webpack": "^4.44.2",
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.12",
-    "webpack-subresource-integrity": "^1.4.1"
+    "webpack-subresource-integrity": "^1.5.1"
   }
 }
