@@ -1,27 +1,9 @@
 {
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "extends": [
-    "webdeveric",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "extends": "@webdeveric/eslint-config-ts",
   "rules": {
     "@typescript-eslint/no-explicit-any": "off"
   },
-  "overrides": [
-    {
-      "files": [
-        "*.js"
-      ],
-      "rules": {
-        "@typescript-eslint/no-var-requires": "off"
-      }
-    }
-  ],
   "env": {
     "browser": false,
     "es6": true,
