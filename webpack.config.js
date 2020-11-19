@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -48,17 +49,6 @@ const config = {
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          cache: true,
-          fix: true,
-          emitWarning: true,
-        },
-      },
-      {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
@@ -92,6 +82,10 @@ const config = {
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false,
+    }),
+    new ESLintPlugin({
+      emitWarning: true,
+      extensions: [ 'js', 'ts' ],
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
