@@ -10,7 +10,7 @@ export type WordBounds = {
 
 export type WordBoundsFn = (text: string) => WordBounds | undefined;
 
-export function findWordBoundsRegExp( text: string, pattern: RegExp ) : WordBounds | undefined
+function findWordBoundsRegExp( pattern: RegExp, text: string ) : WordBounds | undefined
 {
   const match = text.match( pattern );
 
@@ -26,7 +26,7 @@ export function findWordBoundsRegExp( text: string, pattern: RegExp ) : WordBoun
   }
 }
 
-export function findWordBoundsString( text: string, word: string ) : WordBounds | undefined
+function findWordBoundsString( word: string, text: string ) : WordBounds | undefined
 {
   const start = text.indexOf( word );
 
@@ -39,8 +39,8 @@ export function findWordBoundsString( text: string, word: string ) : WordBounds 
 }
 
 export const findWordBounds = (search: string | RegExp) : WordBoundsFn => search instanceof RegExp ?
-  (text: string) => findWordBoundsRegExp(text, search) :
-  (text: string) => findWordBoundsString(text, search);
+  findWordBoundsRegExp.bind(null, search) :
+  findWordBoundsString.bind(null, search) ;
 
 export function replaceText( root: Element, word: string | RegExp, elementFactory: ElementFactoryFn ) : typeof root
 {
