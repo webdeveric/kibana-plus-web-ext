@@ -194,7 +194,7 @@ async function init() : Promise<void>
 {
   const assetsManifest = await fetchJson('assets-manifest.json');
 
-  const { css, js } = assetsManifest.entrypoints?.contentScript ?? {};
+  const { css, js } = assetsManifest.entrypoints?.contentScript.assets ?? {};
 
   if ( css?.length ) {
     contentScriptAssets.css = css;
