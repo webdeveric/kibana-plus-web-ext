@@ -115,6 +115,7 @@ const config = {
     }),
     new WebpackAssetsManifest({
       integrity: true,
+      integrityPropertyName: 'sri',
       entrypoints: true,
       output: 'assets-manifest.json',
       customize(entry, original, manifest, asset) {
@@ -124,8 +125,8 @@ const config = {
 
         return {
           value: {
-            size: asset && asset.size(),
-            integrity: asset && asset.integrity,
+            size: asset && asset.source.size(),
+            integrity: asset && asset.info.sri,
           },
         };
       },
