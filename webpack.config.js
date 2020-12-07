@@ -21,6 +21,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     crossOriginLoading: 'anonymous',
+    publicPath: '',
   },
   optimization: {
     minimize: false,

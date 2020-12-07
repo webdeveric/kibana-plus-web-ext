@@ -46,10 +46,14 @@ async function useContentScript(tabId: number): Promise<void>
   const hasLoaded = await contentScriptHasLoaded( tabId );
 
   if ( ! hasLoaded ) {
-    await Promise.allSettled([
+    const results = await Promise.allSettled([
       ...contentScriptAssets.css.map( file => browser.tabs.insertCSS( tabId, { file } ) ),
       ...contentScriptAssets.js.map( file => browser.tabs.executeScript( tabId, { file } ) ),
     ]);
+
+    console.groupCollapsed('browser tabs asset loading');
+    console.table(results);
+    console.groupEnd();
   }
 }
 
