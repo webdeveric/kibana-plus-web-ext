@@ -16,7 +16,7 @@ export function findElements( mutations: MutationRecord[], selector: string ) : 
   );
 }
 
-export function createElement(tagName: string, className?: string, attributes?: Record<string, string>) : Element
+export function createElement(tagName: string, className?: string | string[], attributes?: Record<string, string>) : Element
 {
   const element = document.createElement( tagName );
 
@@ -27,7 +27,9 @@ export function createElement(tagName: string, className?: string, attributes?: 
   }
 
   if ( className ) {
-    element.classList.add( className );
+    const classNames = Array.isArray( className ) ? className : [ className ];
+
+    element.classList.add( ...classNames );
   }
 
   return element;

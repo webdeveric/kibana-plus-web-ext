@@ -1,8 +1,9 @@
+import { JsonObjectRegExp, KibanaPlusPrettyJsonClassName } from '../constants';
+
 import * as replacers from './replacers';
 
 import { createElement } from './elements';
 import { formatJson } from './json';
-import { JsonObjectRegExp } from '../constants';
 import { replaceText } from './text';
 import { sequence } from './replacer';
 
@@ -12,7 +13,7 @@ const modifyJson = sequence( ...Object.values( replacers ) );
 
 export function processJsonContent( unformattedJson: string, elements: readonly Element[] ) : Element
 {
-  const code = createElement('code', styles.json);
+  const code = createElement('code', [ KibanaPlusPrettyJsonClassName, styles.json ]);
 
   code.append( formatJson( unformattedJson ) );
 

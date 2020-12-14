@@ -26,3 +26,5 @@ export enum Emoji {
 }
 
 export const KibanaPlus = `Kibana ${Emoji.PlusSign}`;
+
+export const KibanaPlusPrettyJsonClassName = 'kibana-plus-pretty-json';

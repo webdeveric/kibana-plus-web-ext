@@ -1,5 +1,5 @@
 import {
-  browser, Permissions, Tabs,
+  browser, Menus, Permissions, Tabs,
 } from 'webextension-polyfill-ts';
 
 import {
@@ -230,6 +230,27 @@ async function onInstalled( /* details: Runtime.OnInstalledDetailsType */ ) : Pr
 {
   await setIconForActiveTab();
 }
+
+browser.contextMenus.create({
+  id: 'copy-json',
+  title: 'Copy JSON',
+  contexts: [ 'page' ],
+});
+
+browser.contextMenus.onClicked.addListener( async (info: Menus.OnClickData, tab?: Tabs.Tab) : Promise<void> => {
+  console.log( info );
+
+  if ( tab && info.menuItemId == 'copy-json' ) {
+    const [ copied ] = await browser.tabs.executeScript(tab.id, {
+      frameId: info.frameId,
+      code: `window?.KibanaPlus?.copyElementText( browser.menus.getTargetElement(${info.targetElementId}) );`,
+    });
+
+    console.groupCollapsed(`Menu item clicked: ${info.menuItemId}`);
+    console.log( copied );
+    console.groupEnd();
+  }
+});
 
 browser.browserAction.onClicked.addListener( onBrowserActionClicked );
 

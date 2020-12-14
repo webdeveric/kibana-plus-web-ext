@@ -1,5 +1,5 @@
 import {
-  Emoji, KibanaPlus, ReadyStates,
+  Emoji, KibanaPlus, KibanaPlusPrettyJsonClassName, ReadyStates,
 } from '../constants';
 import { findElements } from './elements';
 import { processElement } from './process';
@@ -7,6 +7,30 @@ import { processElement } from './process';
 // The background script checks for this value so it does not insert multiple of this script.
 window.KibanaPlus = window.KibanaPlus || {
   loaded: true,
+  async copyElementText( target: Element ) : Promise<boolean | Record<string, any>> {
+    if ( target ) {
+      const element = target.closest(`.${KibanaPlusPrettyJsonClassName}`);
+
+      if ( element ) {
+        try {
+          const data = JSON.parse( element.textContent as string );
+          const json = JSON.stringify( data, null, 2 );
+
+          await navigator.clipboard.writeText( json );
+
+          console.groupCollapsed('JSON copied to clipboard');
+          console.dir( data );
+          console.groupEnd();
+
+          return data;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+    return false;
+  },
 };
 
 function info( message: string ) : void
