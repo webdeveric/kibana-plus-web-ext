@@ -45,7 +45,7 @@
     "bl": ">=2.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^7.0.0",
-    "cspell": "^4.2.2",
+    "cspell": "^5.0.7",
     "css-loader": "^5.0.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
