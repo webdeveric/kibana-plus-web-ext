@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./*.js ./src --ext .ts --ext .js --fix",
-    "spellcheck": "cspell \"./{.github,src}/**/*.{js,json}\" \"./*.{md,js}\" \"./package.json\"",
+    "spellcheck": "cspell --no-progress \"./{.github,src}/**/*.{js,json}\" \"./*.{md,js}\" \"./package.json\"",
     "web-ext": "web-ext build",
     "dev": "NODE_ENV=development webpack --watch",
     "prebuild": "npm run spellcheck && npm run lint",
@@ -42,7 +42,6 @@
     "@types/webpack-subresource-integrity": "^1.2.0",
     "@webdeveric/eslint-config-ts": "^0.1.1",
     "@webdeveric/sync-package-version": "^0.3.0",
-    "bl": ">=2.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^7.0.0",
     "cspell": "^5.1.3",
