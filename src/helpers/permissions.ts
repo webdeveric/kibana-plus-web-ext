@@ -10,7 +10,7 @@ export function requestPermissions( url: string, permissions?: Manifest.Optional
   });
 }
 
-export function removePermissions( url: string, permissions?: Manifest.OptionalPermission[] ) : Promise<void>
+export function removePermissions( url: string, permissions?: Manifest.OptionalPermission[] ) : Promise<boolean>
 {
   return browser.permissions.remove({
     origins: [ url ],
