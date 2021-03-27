@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SriPlugin = require('webpack-subresource-integrity');
+const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
@@ -91,7 +91,7 @@ const config = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new SriPlugin({
+    new SubresourceIntegrityPlugin({
       hashFuncNames: [ 'sha256', 'sha384' ],
       enabled: isProd,
     }),
