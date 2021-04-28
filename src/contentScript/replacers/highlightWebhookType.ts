@@ -11,5 +11,5 @@ export const highlightWebhookType = makeTextReplacer(
     element.append( fragment );
 
     return element;
-  }
+  },
 );

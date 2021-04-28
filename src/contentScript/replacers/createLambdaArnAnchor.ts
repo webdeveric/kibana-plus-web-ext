@@ -33,7 +33,7 @@ export const createLambdaArnAnchor = makeTextReplacer(
         return createAnchor( url.toString(), fragment, styles.anchor, { title: 'View on AWS' } );
       }
     }
-  }
+  },
 );
 
 export const createLambdaAnchor = makeTextReplacer(
@@ -48,5 +48,5 @@ export const createLambdaAnchor = makeTextReplacer(
         return createAnchor( url.toString(), fragment, styles.anchor, { title: 'View on AWS' } );
       }
     }
-  }
+  },
 );

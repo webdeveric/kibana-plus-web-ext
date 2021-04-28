@@ -39,5 +39,5 @@ export const highlightStatusCode = makeTextReplacer(
     element.append(statusCode);
 
     return element;
-  }
+  },
 );

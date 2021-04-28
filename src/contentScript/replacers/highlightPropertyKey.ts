@@ -17,5 +17,5 @@ export const highlightPropertyKey = makeTextReplacer(
     element.append( quote.cloneNode(true) );
 
     return element;
-  }
+  },
 );

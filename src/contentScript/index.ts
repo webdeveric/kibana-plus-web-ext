@@ -101,7 +101,7 @@ function init() : void
       root: null,
       rootMargin: '100px 0px 100px 0px',
       threshold: 0,
-    }
+    },
   );
 
   const mutation = new MutationObserver( (mutations: MutationRecord[]) => {

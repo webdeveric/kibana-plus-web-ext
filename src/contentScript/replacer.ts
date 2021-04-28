@@ -9,6 +9,6 @@ export function sequence( ...functions: TextReplacerFn[] ) : TextReplacerFn
 {
   return functions.reduce(
     (prevFn, nextFn) => (element: Element) => nextFn( prevFn( element ) ),
-    (element: Element) => element
+    (element: Element) => element,
   );
 }

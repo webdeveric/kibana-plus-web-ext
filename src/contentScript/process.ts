@@ -28,7 +28,7 @@ export function processJsonContent( unformattedJson: string, elements: readonly 
 
         return words;
       },
-      new Set()
+      new Set(),
     );
 
     const markedWordsRegExp = new RegExp( [ ...wordsToMatch ].join('|') );
@@ -42,7 +42,7 @@ export function processJsonContent( unformattedJson: string, elements: readonly 
         element.appendChild( fragment.firstChild as Element );
 
         return element;
-      }
+      },
     );
   }
 

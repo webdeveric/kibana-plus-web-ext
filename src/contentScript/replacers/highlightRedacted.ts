@@ -12,5 +12,5 @@ export const highlightRedacted = makeTextReplacer(
     element.append( fragment );
 
     return element;
-  }
+  },
 );

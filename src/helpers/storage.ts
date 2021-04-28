@@ -18,7 +18,7 @@ export function withDefaults(keys?: keyof typeof defaultConfig | null | string |
   if (Array.isArray(keys)) {
     return keys.reduce(
       (data, key) => (data[ key ] = defaultConfig[ key ], data),
-      {} as ConfigRecord
+      {} as ConfigRecord,
     );
   }
 

@@ -11,5 +11,5 @@ export const highlightArn = makeTextReplacer(
     element.append( fragment );
 
     return element;
-  }
+  },
 );

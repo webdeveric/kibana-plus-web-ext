@@ -31,7 +31,7 @@ async function contentScriptHasLoaded( tabId: number ) : Promise<boolean>
     tabId,
     {
       code: '!! window?.KibanaPlus?.loaded;',
-    }
+    },
   );
 
   console.log(`Tab ${tabId} has existing content script: ${hasLoaded}`);
@@ -186,7 +186,7 @@ async function fetchJson( path: string ) : Promise<any>
       method: 'GET',
       mode: 'same-origin',
       headers: { Accept: 'application/json' },
-    }
+    },
   );
 
   const data = await response.json();

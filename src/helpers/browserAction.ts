@@ -66,7 +66,7 @@ export async function setIconForTab( tab: Tabs.Tab ) : Promise<void>
 export async function setIconForTabs( tabs: Tabs.Tab[] ) : Promise<void>
 {
   await Promise.all(
-    tabs.map( tab => setIconForTab( tab ) )
+    tabs.map( tab => setIconForTab( tab ) ),
   );
 }
 

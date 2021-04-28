@@ -11,5 +11,5 @@ export const highlightUuid = makeTextReplacer(
     element.append( fragment );
 
     return element;
-  }
+  },
 );

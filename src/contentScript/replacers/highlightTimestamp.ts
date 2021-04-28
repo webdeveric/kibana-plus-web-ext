@@ -15,5 +15,5 @@ export const highlightTimestamp = makeTextReplacer(
     element.append( fragment );
 
     return element;
-  }
+  },
 );

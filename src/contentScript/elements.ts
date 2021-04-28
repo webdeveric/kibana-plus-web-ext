@@ -12,7 +12,7 @@ export function findElements( mutations: MutationRecord[], selector: string ) : 
 
       return data;
     },
-    []
+    [],
   );
 }
 
