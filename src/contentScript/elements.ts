@@ -6,7 +6,7 @@ export function findElements( mutations: MutationRecord[], selector: string ) : 
     (data: Element[], record: MutationRecord) => {
       const { target } = record;
 
-      if ('matches' in target && (target as Element).matches( selector )) {
+      if ( target instanceof Element && target.matches( selector ) ) {
         data.push(target);
       }
 
