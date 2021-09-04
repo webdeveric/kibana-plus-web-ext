@@ -1,4 +1,4 @@
-export const JsonObjectRegExp = /\{.*\}/gs;
+export const jsonObjectRegExp = /\{.*\}/gs;
 
 export const REDACTED = '[REDACTED]';
 
@@ -25,6 +25,6 @@ export enum Emoji {
   HourGlassDone = '⌛',
 }
 
-export const KibanaPlus = `Kibana ${Emoji.PlusSign}`;
+export const kibanaPlus = `Kibana ${Emoji.PlusSign}`;
 
-export const KibanaPlusPrettyJsonClassName = 'kibana-plus-pretty-json';
+export const kibanaPlusPrettyJsonClassName = 'kibana-plus-pretty-json';

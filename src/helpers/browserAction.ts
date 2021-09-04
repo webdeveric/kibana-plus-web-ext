@@ -2,7 +2,7 @@ import { browser, Tabs } from 'webextension-polyfill-ts';
 
 import { getActiveTab } from './tabs';
 import { hasPermission } from './permissions';
-import { KibanaPlus } from '../constants';
+import { kibanaPlus } from '../constants';
 
 import activeIcon from '../icons/active.svg';
 import errorIcon from '../icons/error.svg';
@@ -52,7 +52,7 @@ export async function setIconForTab( tab: Tabs.Tab ) : Promise<void>
     const granted = await hasPermission( tab.url );
 
     await Promise.allSettled([
-      setTitle( tab.id, `${granted ? 'Disable' : 'Enable'} ${KibanaPlus}` ),
+      setTitle( tab.id, `${granted ? 'Disable' : 'Enable'} ${kibanaPlus}` ),
       granted ? setActiveIcon( tab.id ) : setInactiveIcon( tab.id ),
     ]);
   } catch (error) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -6,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const ESLintPlugin = require('eslint-webpack-plugin');
+/* eslint-enable @typescript-eslint/naming-convention */
 
 const isProd = process.env.NODE_ENV === 'production';
 

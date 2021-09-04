@@ -1,5 +1,5 @@
 import {
-  Emoji, KibanaPlus, KibanaPlusPrettyJsonClassName, ReadyStates,
+  Emoji, kibanaPlus, kibanaPlusPrettyJsonClassName, ReadyStates,
 } from '../constants';
 import { findElements } from './elements';
 import { processElement } from './process';
@@ -9,7 +9,7 @@ window.KibanaPlus = window.KibanaPlus || {
   loaded: true,
   async copyElementText( target: Element ) : Promise<boolean | Record<string, any>> {
     if ( target ) {
-      const element = target.closest(`.${KibanaPlusPrettyJsonClassName}`);
+      const element = target.closest(`.${kibanaPlusPrettyJsonClassName}`);
 
       if ( element ) {
         try {
@@ -36,7 +36,7 @@ window.KibanaPlus = window.KibanaPlus || {
 function info( message: string ) : void
 {
   console.info(
-    `%c${KibanaPlus} ${message}`,
+    `%c${kibanaPlus} ${message}`,
     `
       display: inline-block;
       background: linear-gradient(to bottom, #42CAF4 0%, #3CAED2 100%);

@@ -3,7 +3,7 @@ import {
 } from 'webextension-polyfill-ts';
 
 import {
-  Emoji, KibanaPlus, TabStatus,
+  Emoji, kibanaPlus, TabStatus,
 } from './constants';
 import {
   getAllPermissions,
@@ -41,7 +41,7 @@ async function contentScriptHasLoaded( tabId: number ) : Promise<boolean>
 
 async function useContentScript(tabId: number): Promise<void>
 {
-  console.log(`Loading ${KibanaPlus} content script in tab ${tabId}`);
+  console.log(`Loading ${kibanaPlus} content script in tab ${tabId}`);
 
   const hasLoaded = await contentScriptHasLoaded( tabId );
 
@@ -185,7 +185,10 @@ async function fetchJson( path: string ) : Promise<any>
     {
       method: 'GET',
       mode: 'same-origin',
-      headers: { Accept: 'application/json' },
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Accept: 'application/json',
+      },
     },
   );
 
@@ -218,7 +221,7 @@ async function init() : Promise<void>
 
   await setIconForTabs( tabs );
 
-  console.info(`${KibanaPlus} background script initialized ${Emoji.ThumbsUp}`);
+  console.info(`${kibanaPlus} background script initialized ${Emoji.ThumbsUp}`);
 }
 
 async function onStartup() : Promise<void>

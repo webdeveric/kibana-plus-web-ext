@@ -1,4 +1,4 @@
-import { JsonObjectRegExp, KibanaPlusPrettyJsonClassName } from '../constants';
+import { jsonObjectRegExp, kibanaPlusPrettyJsonClassName } from '../constants';
 
 import * as replacers from './replacers';
 
@@ -13,7 +13,7 @@ const modifyJson = sequence( ...Object.values( replacers ) );
 
 export function processJsonContent( unformattedJson: string, elements: readonly Element[] ) : Element
 {
-  const code = createElement('code', [ KibanaPlusPrettyJsonClassName, styles.json ]);
+  const code = createElement('code', [ kibanaPlusPrettyJsonClassName, styles.json ]);
 
   code.append( formatJson( unformattedJson ) );
 
@@ -57,7 +57,7 @@ export function processTextContent( textContent: string, originalNodes: readonly
 
   fragment.appendChild( textNode );
 
-  for ( const match of textContent.matchAll( JsonObjectRegExp ) ) {
+  for ( const match of textContent.matchAll( jsonObjectRegExp ) ) {
     if ( match.index !== undefined ) {
       // TODO maybe account for multiple JSON strings in the textContent
       const jsonNode = match.index === 0 ? textNode : textNode.splitText( match.index );
