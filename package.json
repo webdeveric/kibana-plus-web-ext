@@ -58,7 +58,7 @@
     "webextension-polyfill-ts": "^0.26.0",
     "webpack": "^5.12.3",
     "webpack-assets-manifest": "^5.0.6",
-    "webpack-cli": "^4.3.1",
+    "webpack-cli": "^4.9.1",
     "webpack-subresource-integrity": "^5.0.0"
   }
 }
