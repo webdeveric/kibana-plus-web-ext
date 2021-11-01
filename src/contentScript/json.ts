@@ -18,8 +18,9 @@ export function replacer( key: string, value: string | number | Record<string, u
 {
   if (typeof value === 'string' && looksLikeJson( value ) ) {
     try {
-      return JSON.parse( value );
-    } catch (e) { // eslint-disable-line no-empty
+      return JSON.parse(value);
+    } catch {
+      // eslint-disable-line no-empty
     }
   }
 
