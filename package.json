@@ -43,7 +43,7 @@
     "@webdeveric/eslint-config-ts": "^0.4.1",
     "@webdeveric/sync-package-version": "^0.3.0",
     "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^10.0.0",
+    "copy-webpack-plugin": "^10.2.0",
     "cspell": "^5.13.1",
     "css-loader": "^6.5.1",
     "dotenv": "^10.0.0",
