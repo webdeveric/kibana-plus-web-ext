@@ -34,9 +34,8 @@
   ],
   "author": "Eric King <eric@webdeveric.com>",
   "devDependencies": {
-    "@types/copy-webpack-plugin": "^8.0.0",
     "@types/mini-css-extract-plugin": "^2.0.1",
-    "@types/node": "^16.11.11",
+    "@types/node": "^17.0.7",
     "@types/script-ext-html-webpack-plugin": "^2.1.1",
     "@types/webpack-assets-manifest": "^5.0.0",
     "@types/webpack-subresource-integrity": "^5.0.0",
