@@ -26,7 +26,6 @@ const config = {
     publicPath: '',
   },
   optimization: {
-    minimize: false,
     runtimeChunk: {
       name: 'runtime',
     },
@@ -122,7 +121,7 @@ const config = {
       entrypoints: true,
       output: 'assets-manifest.json',
       customize(entry, original, manifest, asset) {
-        if ( entry.key.endsWith('.map') ) {
+        if (entry.key.endsWith('.map')) {
           return false;
         }
 
