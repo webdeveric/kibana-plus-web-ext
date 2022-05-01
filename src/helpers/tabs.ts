@@ -1,4 +1,4 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 
 export async function getActiveTab(): Promise<Tabs.Tab>
 {

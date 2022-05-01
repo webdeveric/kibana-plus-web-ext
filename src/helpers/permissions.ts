@@ -1,17 +1,19 @@
-import {
-  browser, Manifest, Permissions,
-} from 'webextension-polyfill-ts';
+import browser, { Manifest, Permissions } from 'webextension-polyfill';
 
-export function requestPermissions( url: string, permissions?: Manifest.OptionalPermission[] ) : Promise<boolean>
-{
+export function requestPermissions(
+  url: string,
+  permissions?: Manifest.OptionalPermission[],
+): Promise<boolean> {
   return browser.permissions.request({
     origins: [ url ],
     permissions,
   });
 }
 
-export function removePermissions( url: string, permissions?: Manifest.OptionalPermission[] ) : Promise<boolean>
-{
+export function removePermissions(
+  url: string,
+  permissions?: Manifest.OptionalPermission[],
+): Promise<boolean> {
   return browser.permissions.remove({
     origins: [ url ],
     permissions,
@@ -22,8 +24,7 @@ export function removePermissions( url: string, permissions?: Manifest.OptionalP
  * `browser.permissions.contains()` may throw an error if the `url` doesn't match a specific pattern.
  * For example, checking `moz-extension://` URLs will fail.
  */
-export async function hasPermission( url: string ) : Promise<boolean>
-{
+export async function hasPermission(url: string): Promise<boolean> {
   try {
     const allowed = await browser.permissions.contains({
       origins: [ url ],
@@ -35,8 +36,7 @@ export async function hasPermission( url: string ) : Promise<boolean>
   }
 }
 
-export async function getAllPermissions() : Promise<Permissions.AnyPermissions>
-{
+export async function getAllPermissions(): Promise<Permissions.AnyPermissions> {
   const permissions = await browser.permissions.getAll();
 
   return permissions;
