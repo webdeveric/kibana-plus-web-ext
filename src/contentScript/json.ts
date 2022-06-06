@@ -14,9 +14,11 @@ export function looksLikeJson( input: string ) : boolean
   );
 }
 
-export function replacer( key: string, value: string | number | Record<string, unknown> | boolean | null | undefined ) : unknown
-{
-  if (typeof value === 'string' && looksLikeJson( value ) ) {
+export function replacer(
+  _key: string,
+  value: string | number | Record<string, unknown> | boolean | null | undefined,
+): unknown {
+  if (typeof value === 'string' && looksLikeJson(value)) {
     try {
       return JSON.parse(value);
     } catch {

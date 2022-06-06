@@ -31,7 +31,7 @@ function getClassNameFromStatusCode( statusCode: string ): string {
 
 export const highlightStatusCode = makeTextReplacer(
   /(?<="statusCode":\s)(?<statusCode>\d+)/,
-  (fragment: DocumentFragment, match?: RegExpMatchArray): Element => {
+  (_fragment: DocumentFragment, match?: RegExpMatchArray): Element => {
     const element = createElement('span', styles.statusCode);
     const statusCode = match?.groups?.statusCode as string;
 

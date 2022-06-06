@@ -5,9 +5,18 @@
     "@typescript-eslint/no-explicit-any": "off"
   },
   "env": {
-    "browser": false,
-    "es6": true,
-    "mocha": true,
-    "node": true
-  }
+    "webextensions": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "overrides": [
+    {
+      "files": ["./*.js"],
+      "parserOptions": {
+        "project": ["./tsconfig.project-files.json"]
+      }
+    }
+  ]
 }

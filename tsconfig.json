@@ -1,24 +1,27 @@
 {
-  "include": [
-    "typings",
-    "src/**/*"
-  ],
+  "include": ["typings", "src/**/*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     "target": "ES2019",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": [
-      "DOM",
-      "es2020.string",
-      "es2020.promise"
-    ],
+    "lib": ["DOM", "es2020.string", "es2020.promise"],
     "strict": true,
     "outDir": "./dist",
     "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "importsNotUsedAsValues": "error",
+    "noErrorTruncation": true,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": false,
+    "noUncheckedIndexedAccess": false
   }
 }

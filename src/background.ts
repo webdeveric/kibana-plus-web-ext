@@ -145,7 +145,9 @@ async function forgetTabsByUrl(url: string[]): Promise<Tabs.Tab[]> {
   return tabs;
 }
 
-async function onPermissionsAdded(permissions: Permissions.Permissions) {
+async function onPermissionsAdded(
+  permissions: Permissions.Permissions,
+): Promise<void> {
   if (! permissions.origins) {
     throw new Error('permissions.origins not set');
   }
@@ -155,7 +157,9 @@ async function onPermissionsAdded(permissions: Permissions.Permissions) {
   tabs.forEach(tab => maybeUseContentScript(tab));
 }
 
-async function onPermissionsRemoved(permissions: Permissions.Permissions) {
+async function onPermissionsRemoved(
+  permissions: Permissions.Permissions,
+): Promise<void> {
   if (! permissions.origins) {
     throw new Error('permissions.origins not set');
   }
@@ -166,7 +170,9 @@ async function onPermissionsRemoved(permissions: Permissions.Permissions) {
 /**
  * Update the browserAction icon for each Tab that has a permission change.
  */
-async function onPermissionsChanged(permissions: Permissions.Permissions) {
+async function onPermissionsChanged(
+  permissions: Permissions.Permissions,
+): Promise<void> {
   if (! permissions.origins) {
     throw new Error('permissions.origins not set');
   }
@@ -267,8 +273,10 @@ browser.permissions.onRemoved.addListener(onPermissionsChanged);
 
 browser.runtime.onStartup.addListener(onStartup);
 browser.runtime.onInstalled.addListener(onInstalled);
-browser.runtime.setUninstallURL(
-  'https://webdeveric.github.io/kibana-plus-web-ext/uninstalled.html',
-);
+browser.runtime
+  .setUninstallURL(
+    'https://webdeveric.github.io/kibana-plus-web-ext/uninstalled.html',
+  )
+  .catch(error => console.error(error));
 
-init();
+init().catch(error => console.error(error));
