@@ -35,7 +35,7 @@
   "author": "Eric King <eric@webdeveric.com>",
   "devDependencies": {
     "@types/mini-css-extract-plugin": "^2.0.1",
-    "@types/node": "^18.6.1",
+    "@types/node": "^18.11.10",
     "@types/script-ext-html-webpack-plugin": "^2.1.1",
     "@types/webextension-polyfill": "^0.9.0",
     "@types/webpack-assets-manifest": "^5.0.0",
