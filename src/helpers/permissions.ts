@@ -1,4 +1,7 @@
-import browser, { Manifest, Permissions } from 'webextension-polyfill';
+import browser, {
+  type Manifest,
+  type Permissions,
+} from 'webextension-polyfill';
 
 export function requestPermissions(
   url: string,

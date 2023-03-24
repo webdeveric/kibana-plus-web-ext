@@ -1,5 +1,7 @@
 import browser, {
-  Menus, Permissions, Tabs, 
+  type Menus,
+  type Permissions,
+  type Tabs,
 } from 'webextension-polyfill';
 
 import {

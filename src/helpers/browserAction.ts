@@ -1,4 +1,4 @@
-import browser, { Tabs } from 'webextension-polyfill';
+import browser, { type Tabs } from 'webextension-polyfill';
 
 import { getActiveTab } from './tabs';
 import { hasPermission } from './permissions';
