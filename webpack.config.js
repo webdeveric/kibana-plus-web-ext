@@ -1,12 +1,12 @@
+const path = require('node:path');
+
 /* eslint-disable @typescript-eslint/naming-convention */
-const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const ESLintPlugin = require('eslint-webpack-plugin');
+const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 /* eslint-enable @typescript-eslint/naming-convention */
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -79,27 +79,23 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.css' ],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
   },
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false,
     }),
-    new ESLintPlugin({
-      emitWarning: true,
-      extensions: [ 'js', 'ts' ],
-    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
     new SubresourceIntegrityPlugin({
-      hashFuncNames: [ 'sha256', 'sha384' ],
+      hashFuncNames: ['sha256', 'sha384'],
       enabled: isProd,
     }),
     new HtmlWebpackPlugin({
       minify: false,
       showErrors: true,
-      chunks: [ 'background' ],
+      chunks: ['background'],
       filename: 'background.html',
       inject: 'head',
       meta: {
