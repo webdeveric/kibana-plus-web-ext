@@ -1,7 +1,7 @@
 import { createAnchor } from '../elements';
+import styles from '../main.css';
 import { makeTextReplacer } from '../replacer';
 
-import styles from '../main.css';
 
 export const createAnchors = makeTextReplacer(
   /(?<=")https?:\/\/.+(?=")+/,

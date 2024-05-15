@@ -1,7 +1,7 @@
 import { createElement } from '../elements';
+import styles from '../main.css';
 import { makeTextReplacer } from '../replacer';
 
-import styles from '../main.css';
 
 /**
  * This will wrap timestamp strings that are enclosed with quotes.

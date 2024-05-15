@@ -1,7 +1,7 @@
 import { createElement } from '../elements';
+import styles from '../main.css';
 import { makeTextReplacer } from '../replacer';
 
-import styles from '../main.css';
 
 function inRange( num: number, lower: number, upper: number ): boolean {
   return num >= lower && num <= upper;

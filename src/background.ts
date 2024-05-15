@@ -1,23 +1,18 @@
-import browser, {
+import {
+  browserAction,
+  contextMenus,
+  permissions,
+  runtime,
+  tabs,
   type Menus,
   type Permissions,
   type Tabs,
 } from 'webextension-polyfill';
 
-import {
-  Emoji, kibanaPlus, TabStatus, 
-} from './constants';
-import {
-  getAllPermissions,
-  hasPermission,
-  removePermissions,
-  requestPermissions,
-} from './helpers/permissions';
-import {
-  setIconForActiveTab,
-  setIconForTab,
-  setIconForTabs,
-} from './helpers/browserAction';
+import { Emoji, kibanaPlus, TabStatus } from './constants';
+import { setIconForActiveTab, setIconForTab, setIconForTabs } from './helpers/browserAction';
+import { getAllPermissions, hasPermission, requestPermissions } from './helpers/permissions';
+import { removePermissions } from './helpers/removePermissions';
 
 const grantedTabs = new Set<number>();
 
@@ -28,7 +23,7 @@ const contentScriptAssets: Record<'css' | 'js', string[]> = {
 };
 
 async function contentScriptHasLoaded(tabId: number): Promise<boolean> {
-  const [ hasLoaded ] = await browser.tabs.executeScript(tabId, {
+  const [hasLoaded] = await tabs.executeScript(tabId, {
     code: '!! window?.KibanaPlus?.loaded;',
   });
 
@@ -42,14 +37,10 @@ async function useContentScript(tabId: number): Promise<void> {
 
   const hasLoaded = await contentScriptHasLoaded(tabId);
 
-  if (! hasLoaded) {
+  if (!hasLoaded) {
     const results = await Promise.allSettled([
-      ...contentScriptAssets.css.map(file =>
-        browser.tabs.insertCSS(tabId, { file }),
-      ),
-      ...contentScriptAssets.js.map(file =>
-        browser.tabs.executeScript(tabId, { file }),
-      ),
+      ...contentScriptAssets.css.map(file => tabs.insertCSS(tabId, { file })),
+      ...contentScriptAssets.js.map(file => tabs.executeScript(tabId, { file })),
     ]);
 
     console.groupCollapsed('browser tabs asset loading');
@@ -70,22 +61,18 @@ async function trackGrantedTabs(tab: Tabs.Tab): Promise<Set<number>> {
 
     console.log(`${tab.url} granted: ${granted}`);
 
-    granted ? grantedTabs.add(tab.id) : grantedTabs.delete(tab.id);
+    if (granted) {
+      grantedTabs.add(tab.id);
+    } else {
+      grantedTabs.delete(tab.id);
+    }
   }
 
   return grantedTabs;
 }
 
-async function onTabUpdated(
-  tabId: number,
-  changeInfo: Tabs.OnUpdatedChangeInfoType,
-  tab: Tabs.Tab,
-): Promise<void> {
-  if (
-    'status' in changeInfo &&
-    changeInfo.status === TabStatus.Complete &&
-    tab.url
-  ) {
+async function onTabUpdated(tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab): Promise<void> {
+  if ('status' in changeInfo && changeInfo.status === TabStatus.Complete && tab.url) {
     console.log(`Loaded ${tab.url} into tab ${tabId}`);
 
     await trackGrantedTabs(tab);
@@ -105,10 +92,8 @@ function onTabRemoved(tabId: number): void {
  *
  * @param activeInfo
  */
-async function onTabActivated(
-  activeInfo: Tabs.OnActivatedActiveInfoType,
-): Promise<void> {
-  const tab = await browser.tabs.get(activeInfo.tabId);
+async function onTabActivated(activeInfo: Tabs.OnActivatedActiveInfoType): Promise<void> {
+  const tab = await tabs.get(activeInfo.tabId);
 
   await setIconForTab(tab);
 }
@@ -119,9 +104,7 @@ async function onTabActivated(
  *
  * @param tab
  */
-async function onBrowserActionClicked(
-  tab: Tabs.Tab, /* , eventData?: BrowserAction.OnClickData */
-): Promise<void> {
+async function onBrowserActionClicked(tab: Tabs.Tab /* , eventData?: BrowserAction.OnClickData */): Promise<void> {
   if (tab.id && tab.url) {
     if (grantedTabs.has(tab.id)) {
       await removePermissions(tab.url);
@@ -132,37 +115,35 @@ async function onBrowserActionClicked(
 }
 
 async function rememberTabsByUrl(url: string[]): Promise<Tabs.Tab[]> {
-  const tabs = await browser.tabs.query({ url });
+  const urlTabs = await tabs.query({ url });
 
-  tabs.forEach(async tab => tab.id && grantedTabs.add(tab.id));
+  urlTabs.forEach(tab => tab.id && grantedTabs.add(tab.id));
 
-  return tabs;
+  return urlTabs;
 }
 
 async function forgetTabsByUrl(url: string[]): Promise<Tabs.Tab[]> {
-  const tabs = await browser.tabs.query({ url });
+  const urlTabs = await tabs.query({ url });
 
-  tabs.forEach(async tab => tab.id && grantedTabs.delete(tab.id));
+  urlTabs.forEach(tab => tab.id && grantedTabs.delete(tab.id));
 
-  return tabs;
+  return urlTabs;
 }
 
-async function onPermissionsAdded(
-  permissions: Permissions.Permissions,
-): Promise<void> {
-  if (! permissions.origins) {
+async function onPermissionsAdded(permissions: Permissions.Permissions): Promise<void> {
+  if (!permissions.origins) {
     throw new Error('permissions.origins not set');
   }
 
   const tabs = await rememberTabsByUrl(permissions.origins);
 
-  tabs.forEach(tab => maybeUseContentScript(tab));
+  tabs.forEach(tab => {
+    maybeUseContentScript(tab).catch(console.error);
+  });
 }
 
-async function onPermissionsRemoved(
-  permissions: Permissions.Permissions,
-): Promise<void> {
-  if (! permissions.origins) {
+async function onPermissionsRemoved(permissions: Permissions.Permissions): Promise<void> {
+  if (!permissions.origins) {
     throw new Error('permissions.origins not set');
   }
 
@@ -172,26 +153,24 @@ async function onPermissionsRemoved(
 /**
  * Update the browserAction icon for each Tab that has a permission change.
  */
-async function onPermissionsChanged(
-  permissions: Permissions.Permissions,
-): Promise<void> {
-  if (! permissions.origins) {
+async function onPermissionsChanged(permissions: Permissions.Permissions): Promise<void> {
+  if (!permissions.origins) {
     throw new Error('permissions.origins not set');
   }
 
-  const tabs = await browser.tabs.query({
+  const urlTabs = await tabs.query({
     url: permissions.origins,
   });
 
-  await setIconForTabs(tabs);
+  await setIconForTabs(urlTabs);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchJson(path: string): Promise<any> {
-  const response = await fetch(browser.runtime.getURL(path), {
+  const response = await fetch(runtime.getURL(path), {
     method: 'GET',
     mode: 'same-origin',
     headers: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       Accept: 'application/json',
     },
   });
@@ -235,50 +214,70 @@ async function onInstalled(/* details: Runtime.OnInstalledDetailsType */): Promi
   await setIconForActiveTab();
 }
 
-browser.contextMenus.create({
+contextMenus.create({
   id: 'copy-json',
   title: 'Copy JSON',
-  contexts: [ 'page' ],
+  contexts: ['page'],
 });
 
-browser.contextMenus.onClicked.addListener(
-  async (info: Menus.OnClickData, tab?: Tabs.Tab): Promise<void> => {
-    console.log(info);
+contextMenus.onClicked.addListener((info: Menus.OnClickData, tab?: Tabs.Tab): void => {
+  console.log(info);
 
-    if (tab && info.menuItemId == 'copy-json') {
-      const [ copied ] = await browser.tabs.executeScript(tab.id, {
+  if (tab && info.menuItemId == 'copy-json') {
+    tabs
+      .executeScript(tab.id, {
         frameId: info.frameId,
-        code: `window?.KibanaPlus?.copyElementText( browser.menus.getTargetElement(${info.targetElementId}) );`,
-      });
+        code: `window?.KibanaPlus?.copyElementText( menus.getTargetElement(${info.targetElementId}) );`,
+      })
+      .then(([copied]) => {
+        console.groupCollapsed(`Menu item clicked: ${info.menuItemId}`);
+        console.log(copied);
+        console.groupEnd();
+      }, console.error);
+  }
+});
 
-      console.groupCollapsed(`Menu item clicked: ${info.menuItemId}`);
-      console.log(copied);
-      console.groupEnd();
-    }
-  },
-);
-
-browser.browserAction.onClicked.addListener(onBrowserActionClicked);
+browserAction.onClicked.addListener(tab => {
+  onBrowserActionClicked(tab).catch(console.error);
+});
 
 // Filtering doesn't work in Chrome: { properties: [ 'status' ] }
-browser.tabs.onUpdated.addListener(onTabUpdated);
+tabs.onUpdated.addListener((...args) => {
+  onTabUpdated(...args).catch(console.error);
+});
 
-browser.tabs.onRemoved.addListener(onTabRemoved);
+tabs.onRemoved.addListener(onTabRemoved);
 
-browser.tabs.onActivated.addListener(onTabActivated);
+tabs.onActivated.addListener((...args) => {
+  onTabActivated(...args).catch(console.error);
+});
 
-browser.permissions.onAdded.addListener(onPermissionsAdded);
-browser.permissions.onAdded.addListener(onPermissionsChanged);
+permissions.onAdded.addListener((...args) => {
+  onPermissionsAdded(...args).catch(console.error);
+});
 
-browser.permissions.onRemoved.addListener(onPermissionsRemoved);
-browser.permissions.onRemoved.addListener(onPermissionsChanged);
+permissions.onAdded.addListener((...args) => {
+  onPermissionsChanged(...args).catch(console.error);
+});
 
-browser.runtime.onStartup.addListener(onStartup);
-browser.runtime.onInstalled.addListener(onInstalled);
-browser.runtime
-  .setUninstallURL(
-    'https://webdeveric.github.io/kibana-plus-web-ext/uninstalled.html',
-  )
+permissions.onRemoved.addListener((...args) => {
+  onPermissionsRemoved(...args).catch(console.error);
+});
+
+permissions.onRemoved.addListener((...args) => {
+  onPermissionsChanged(...args).catch(console.error);
+});
+
+runtime.onStartup.addListener((...args) => {
+  onStartup(...args).catch(console.error);
+});
+
+runtime.onInstalled.addListener(() => {
+  onInstalled().catch(console.error);
+});
+
+runtime
+  .setUninstallURL('https://webdeveric.github.io/kibana-plus-web-ext/uninstalled.html')
   .catch(error => console.error(error));
 
 init().catch(error => console.error(error));

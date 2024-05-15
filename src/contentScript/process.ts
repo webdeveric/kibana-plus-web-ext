@@ -1,13 +1,12 @@
 import { jsonObjectRegExp, kibanaPlusPrettyJsonClassName } from '../constants';
 
-import * as replacers from './replacers';
 
 import { createElement } from './elements';
 import { formatJson } from './json';
-import { replaceText } from './text';
-import { sequence } from './replacer';
-
 import styles from './main.css';
+import { sequence } from './replacer';
+import * as replacers from './replacers';
+import { replaceText } from './text';
 
 const modifyJson = sequence( ...Object.values( replacers ) );
 

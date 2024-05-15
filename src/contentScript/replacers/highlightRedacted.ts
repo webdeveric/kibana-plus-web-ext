@@ -1,8 +1,8 @@
-import { createElement } from '../elements';
-import { makeTextReplacer } from '../replacer';
 import { REDACTED } from '../../constants';
-
+import { createElement } from '../elements';
 import styles from '../main.css';
+import { makeTextReplacer } from '../replacer';
+
 
 export const highlightRedacted = makeTextReplacer(
   REDACTED,

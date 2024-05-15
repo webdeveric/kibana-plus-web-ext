@@ -1,5 +1,6 @@
-import type { ElementFactoryFn } from './text';
 import { replaceText } from './text';
+
+import type { ElementFactoryFn } from './text';
 
 export type TextReplacerFn = (element: Element) => typeof element;
 

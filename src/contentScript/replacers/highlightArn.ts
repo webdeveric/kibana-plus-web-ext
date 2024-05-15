@@ -1,7 +1,7 @@
 import { createElement } from '../elements';
+import styles from '../main.css';
 import { makeTextReplacer } from '../replacer';
 
-import styles from '../main.css';
 
 export const highlightArn = makeTextReplacer(
   /(?<=")arn:[a-z0-9:_-]+(?=")/i,

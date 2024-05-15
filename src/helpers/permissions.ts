@@ -1,25 +1,16 @@
-import browser, {
-  type Manifest,
-  type Permissions,
-} from 'webextension-polyfill';
+import { permissions, type Manifest, type Permissions } from 'webextension-polyfill';
 
-export function requestPermissions(
-  url: string,
-  permissions?: Manifest.OptionalPermission[],
-): Promise<boolean> {
-  return browser.permissions.request({
-    origins: [ url ],
-    permissions,
+export function requestPermissions(url: string, manifestPermissions?: Manifest.OptionalPermission[]): Promise<boolean> {
+  return permissions.request({
+    origins: [url],
+    permissions: manifestPermissions,
   });
 }
 
-export function removePermissions(
-  url: string,
-  permissions?: Manifest.OptionalPermission[],
-): Promise<boolean> {
-  return browser.permissions.remove({
-    origins: [ url ],
-    permissions,
+export function removePermissions(url: string, manifestPermissions?: Manifest.OptionalPermission[]): Promise<boolean> {
+  return permissions.remove({
+    origins: [url],
+    permissions: manifestPermissions,
   });
 }
 
@@ -29,8 +20,8 @@ export function removePermissions(
  */
 export async function hasPermission(url: string): Promise<boolean> {
   try {
-    const allowed = await browser.permissions.contains({
-      origins: [ url ],
+    const allowed = await permissions.contains({
+      origins: [url],
     });
 
     return allowed;
@@ -40,7 +31,5 @@ export async function hasPermission(url: string): Promise<boolean> {
 }
 
 export async function getAllPermissions(): Promise<Permissions.AnyPermissions> {
-  const permissions = await browser.permissions.getAll();
-
-  return permissions;
+  return await permissions.getAll();
 }

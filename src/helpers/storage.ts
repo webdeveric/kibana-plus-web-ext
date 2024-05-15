@@ -1,46 +1,38 @@
-import browser from 'webextension-polyfill';
+import { storage } from 'webextension-polyfill';
 
 import { isStringArray } from './type-predicate.js';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ConfigRecord = Record<string, any>;
 
 export const defaultConfig: ConfigRecord = {
   urls: [],
 };
 
-export function withDefaults(
-  keys?: keyof typeof defaultConfig | null | string | string[] | ConfigRecord,
-): typeof keys {
+export function withDefaults(keys?: keyof typeof defaultConfig | null | string | string[] | ConfigRecord): typeof keys {
   if (keys === undefined || keys === null) {
     return defaultConfig;
   }
 
   if (typeof keys === 'string') {
-    return keys in defaultConfig ? { [ keys ]: defaultConfig[ keys ] } : keys;
+    return keys in defaultConfig ? { [keys]: defaultConfig[keys] } : keys;
   }
 
   if (isStringArray(keys)) {
-    return keys.reduce<ConfigRecord>(
-      (data: ConfigRecord, key: string) => (
-        (data[ key ] = defaultConfig[ key ]), data
-      ),
-      {},
-    );
+    return keys.reduce<ConfigRecord>((data: ConfigRecord, key: string) => ((data[key] = defaultConfig[key]), data), {});
   }
 
   return keys;
 }
 
-export async function getStorage(
-  keys?: null | string | string[] | ConfigRecord,
-): Promise<ConfigRecord> {
-  const value = await browser.storage.local.get(withDefaults(keys));
+export async function getStorage(keys?: null | string | string[] | ConfigRecord): Promise<ConfigRecord> {
+  const value = await storage.local.get(withDefaults(keys));
 
   return value;
 }
 
 export async function setStorage(keys: ConfigRecord): Promise<void> {
-  await browser.storage.local.set(keys);
+  await storage.local.set(keys);
 }
 
 const enum ManageUrlOperation {
@@ -48,10 +40,7 @@ const enum ManageUrlOperation {
   Delete,
 }
 
-async function manageUrls(
-  urls: string[],
-  operation: ManageUrlOperation,
-): Promise<void> {
+async function manageUrls(urls: string[], operation: ManageUrlOperation): Promise<void> {
   const data = await getStorage('urls');
 
   const uniqueUrls = new Set(data.urls);
@@ -62,7 +51,7 @@ async function manageUrls(
     urls.forEach(url => uniqueUrls.delete(url));
   }
 
-  await setStorage({ urls: [ ...uniqueUrls ] });
+  await setStorage({ urls: [...uniqueUrls] });
 }
 
 export async function rememberUrls(urls: string[]): Promise<void> {

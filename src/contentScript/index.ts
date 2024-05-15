@@ -1,25 +1,24 @@
-import {
-  Emoji, kibanaPlus, kibanaPlusPrettyJsonClassName, ReadyStates,
-} from '../constants';
+import { Emoji, kibanaPlus, kibanaPlusPrettyJsonClassName, ReadyStates } from '../constants';
+
 import { findElements } from './elements';
 import { processElement } from './process';
 
 // The background script checks for this value so it does not insert multiple of this script.
 window.KibanaPlus = window.KibanaPlus || {
   loaded: true,
-  async copyElementText( target: Element ) : Promise<boolean | Record<string, any>> {
-    if ( target ) {
+  async copyElementText(target: Element): Promise<boolean | Record<string, unknown>> {
+    if (target) {
       const element = target.closest(`.${kibanaPlusPrettyJsonClassName}`);
 
-      if ( element ) {
+      if (element) {
         try {
-          const data = JSON.parse( element.textContent as string );
-          const json = JSON.stringify( data, null, 2 );
+          const data = JSON.parse(element.textContent as string);
+          const json = JSON.stringify(data, null, 2);
 
-          await navigator.clipboard.writeText( json );
+          await navigator.clipboard.writeText(json);
 
           console.groupCollapsed('JSON copied to clipboard');
-          console.dir( data );
+          console.dir(data);
           console.groupEnd();
 
           return data;
@@ -33,8 +32,7 @@ window.KibanaPlus = window.KibanaPlus || {
   },
 };
 
-function info( message: string ) : void
-{
+function info(message: string): void {
   console.info(
     `%c${kibanaPlus} ${message}`,
     `
@@ -48,8 +46,7 @@ function info( message: string ) : void
   );
 }
 
-function waitForContentLoaded(callback: () => void, checkDelay = 10) : void
-{
+function waitForContentLoaded(callback: () => void, checkDelay = 10): void {
   if (document.readyState === ReadyStates.Complete) {
     callback();
 
@@ -59,15 +56,13 @@ function waitForContentLoaded(callback: () => void, checkDelay = 10) : void
   setTimeout(waitForContentLoaded, checkDelay, callback, checkDelay);
 }
 
-function looksLikeKibana() : boolean
-{
+function looksLikeKibana(): boolean {
   return document.querySelector('body')?.getAttribute('id') === 'kibana-body';
 }
 
-function init() : void
-{
-  if ( ! looksLikeKibana() ) {
-    info('This doesn\'t look like a Kibana page');
+function init(): void {
+  if (!looksLikeKibana()) {
+    info("This doesn't look like a Kibana page");
 
     return;
   }
@@ -85,16 +80,18 @@ function init() : void
     '@event.restResponse',
     '@event.msg',
     '@event.customContext.errorContext',
-  ].map((subject: string): string => `tr[data-test-subj$="${subject}"]`).join(',');
+  ]
+    .map((subject: string): string => `tr[data-test-subj$="${subject}"]`)
+    .join(',');
 
   const intersection = new IntersectionObserver(
-    (entries: IntersectionObserverEntry[], observer: IntersectionObserver) : void => {
+    (entries: IntersectionObserverEntry[], observer: IntersectionObserver): void => {
       entries
-        .filter( entry => entry.isIntersecting )
-        .forEach( entry => {
-          observer.unobserve( entry.target );
+        .filter(entry => entry.isIntersecting)
+        .forEach(entry => {
+          observer.unobserve(entry.target);
 
-          processElement( entry.target );
+          processElement(entry.target);
         });
     },
     {
@@ -104,12 +101,12 @@ function init() : void
     },
   );
 
-  const mutation = new MutationObserver( (mutations: MutationRecord[]) => {
-    findElements( mutations, subjectsSelector ).forEach( (element: Element) : void => {
+  const mutation = new MutationObserver((mutations: MutationRecord[]) => {
+    findElements(mutations, subjectsSelector).forEach((element: Element): void => {
       const span = element.querySelector('.doc-viewer-value > span');
 
-      if ( span ) {
-        intersection.observe( span );
+      if (span) {
+        intersection.observe(span);
       }
     });
   });
@@ -117,16 +114,20 @@ function init() : void
   mutation.observe(document, {
     subtree: true,
     attributes: true,
-    attributeFilter: [ 'data-test-subj' ],
+    attributeFilter: ['data-test-subj'],
   });
 
   try {
     // Process any elements that are already showing.
-    document.querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => intersection.observe( span ) );
+    document
+      .querySelectorAll(`:is(${subjectsSelector}) .doc-viewer-value > span`)
+      .forEach(span => intersection.observe(span));
   } catch (error) {
     // Chrome may throw an error when using ":is" since it is behind the
     // #enable-experimental-web-platform-features preference in chrome://flags.
-    document.querySelectorAll(`:-webkit-any(${subjectsSelector}) .doc-viewer-value > span`).forEach( span => intersection.observe( span ) );
+    document
+      .querySelectorAll(`:-webkit-any(${subjectsSelector}) .doc-viewer-value > span`)
+      .forEach(span => intersection.observe(span));
   }
 
   info(`initialized ${Emoji.Horns}`);
@@ -134,4 +135,4 @@ function init() : void
 
 info(`content script loaded ${Emoji.ThumbsUp}`);
 
-waitForContentLoaded( init );
+waitForContentLoaded(init);
